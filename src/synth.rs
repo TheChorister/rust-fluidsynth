@@ -633,10 +633,17 @@ impl Synth {
 	pub fn get_voicelist(&self, size: usize, id: Option<i32>) -> Vec<Voice> {
 		// https://doc.rust-lang.org/nightly/nomicon/ffi.html#creating-a-safe-interface
 		let mut voices_raw: Vec<*mut fluid_voice_t> = Vec::with_capacity(size);
-
 		unsafe {
-			fluid_synth_get_voicelist(self.to_raw(), voices_raw.as_mut_ptr(), size as i32, id.unwrap_or(-1));
 			voices_raw.set_len(size);
+
+			// initialise the buffer to be null pointers (otherwise it is unitialised memory)
+			
+			let p = voices_raw.as_mut_ptr();
+			for i in 0..size { // ok since we know the vec has capacity size
+				std::ptr::write(p.add(i), std::ptr::null_mut::<fluid_voice_t>());
+			}
+
+			fluid_synth_get_voicelist(self.to_raw(), voices_raw.as_mut_ptr(), size as i32, id.unwrap_or(-1));
 		}
 
 		voices_raw.into_iter().filter(|ptr| !ptr.is_null()).map(Voice::from_raw).collect()
