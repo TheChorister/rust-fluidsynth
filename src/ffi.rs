@@ -976,8 +976,16 @@ extern "C" {
      -> ::libc::c_float;
     pub fn fluid_voice_gen_incr(voice: *mut fluid_voice_t, gen: ::libc::c_int,
                                 val: ::libc::c_float) -> ();
+    pub fn fluid_voice_get_actual_key(voice: *mut fluid_voice_t) -> ::libc::c_int;
+    pub fn fluid_voice_get_actual_velocity(voice: *mut fluid_voice_t) -> ::libc::c_int;
+    pub fn fluid_voice_get_channel(voice: *mut fluid_voice_t) -> ::libc::c_int;
     pub fn fluid_voice_get_id(voice: *mut fluid_voice_t) -> ::libc::c_uint;
+    pub fn fluid_voice_get_key(voice: *mut fluid_voice_t) -> ::libc::c_int;
+    pub fn fluid_voice_get_velocity(voice: *mut fluid_voice_t) -> ::libc::c_int;
+    pub fn fluid_voice_is_on(voice: *mut fluid_voice_t) -> ::libc::c_int;
     pub fn fluid_voice_is_playing(voice: *mut fluid_voice_t) -> ::libc::c_int;
+    pub fn fluid_voice_is_sostenuto(voice: *mut fluid_voice_t) -> ::libc::c_int;
+    pub fn fluid_voice_is_sustained(voice: *mut fluid_voice_t) -> ::libc::c_int;
     pub fn fluid_voice_optimize_sample(s: *mut fluid_sample_t)
      -> ::libc::c_int;
     pub fn fluid_version(major: *mut ::libc::c_int, minor: *mut ::libc::c_int,
