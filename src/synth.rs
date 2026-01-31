@@ -7,6 +7,7 @@ use sfont::*;
 use std::str;
 use std::mem::*;
 use midi::{ MidiRouter, MidiEvent };
+use voice::Voice;
 
 #[repr(C)]
 #[derive(PartialEq, Debug)]
@@ -627,6 +628,17 @@ impl Synth {
 		unsafe {
 			fluid_synth_handle_midi_event(self.to_raw() as *mut ::libc::c_void, event.to_raw()) == 0
 		}
+	}
+
+	pub fn get_voicelist(&self, size: usize, id: Option<i32>) -> Vec<Voice> {
+		// https://doc.rust-lang.org/nightly/nomicon/ffi.html#creating-a-safe-interface
+		let mut voices_raw: Vec<*mut fluid_voice_t> = Vec::with_capacity(size);
+
+		unsafe {
+			fluid_synth_get_voicelist(self.to_raw(), voices_raw.as_mut_ptr(), size as i32, id.unwrap_or(-1));
+		}
+
+		voices_raw.into_iter().filter(|ptr| !ptr.is_null()).map(Voice::from_raw).collect()
 	}
 
     pub fn to_raw(&self) -> *mut fluid_synth_t {
