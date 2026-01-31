@@ -6,7 +6,7 @@ use settings::*;
 use sfont::*;
 use std::str;
 use std::mem::*;
-use midi::MidiRouter;
+use midi::{ MidiRouter, MidiEvent };
 
 #[repr(C)]
 #[derive(PartialEq, Debug)]
@@ -623,6 +623,11 @@ impl Synth {
         }
     }
 
+	pub fn handle_midi_event(&self, event: &MidiEvent) -> bool {
+		unsafe {
+			fluid_synth_handle_midi_event(self.to_raw() as *mut ::libc::c_void, event.to_raw()) == 0
+		}
+	}
 
     pub fn to_raw(&self) -> *mut fluid_synth_t {
         self.c_fluid_synth
