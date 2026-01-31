@@ -636,6 +636,7 @@ impl Synth {
 
 		unsafe {
 			fluid_synth_get_voicelist(self.to_raw(), voices_raw.as_mut_ptr(), size as i32, id.unwrap_or(-1));
+			voices_raw.set_len(size);
 		}
 
 		voices_raw.into_iter().filter(|ptr| !ptr.is_null()).map(Voice::from_raw).collect()
