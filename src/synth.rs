@@ -96,6 +96,18 @@ impl Synth {
         }                          
     }
 
+    pub fn all_notes_off(&self, chan: i32) -> bool {
+    	unsafe {
+    		fluid_synth_all_notes_off(self.c_fluid_synth, chan as c_int) == 0
+    	}
+    }
+
+    pub fn all_sounds_off(&self, chan: i32) -> bool {
+    	unsafe {
+    		fluid_synth_all_sounds_off(self.c_fluid_synth, chan as c_int) == 0
+    	}
+    }
+
     pub fn cc(&self, chan: i32, num: i32, val: i32) -> bool {
         unsafe {
             fluid_synth_cc(self.c_fluid_synth, chan as c_int, num as c_int, val as c_int) == 0
