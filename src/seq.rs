@@ -59,7 +59,7 @@ impl Sequencer {
                                                    event_callback_wrapper::<T>, user_data) as i16
         }
 
-        fn event_callback_wrapper<T>(closure: *mut c_void, time: c_uint, event: *mut fluid_event_t, seq: *mut fluid_sequencer_t)
+        extern fn event_callback_wrapper<T>(closure: *mut c_void, time: c_uint, event: *mut fluid_event_t, seq: *mut fluid_sequencer_t)
             where T: Fn(u32, Event, Sequencer) {
             let closure = closure as *mut T;
 

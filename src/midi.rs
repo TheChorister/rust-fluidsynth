@@ -13,7 +13,7 @@ pub struct MidiRouter {
 }
 
 impl MidiRouter {
-    pub fn new<T: Fn(MidiEvent) -> i32>(settings: &mut Settings, callback: T) -> MidiRouter {
+    pub fn new<T: Fn(MidiEvent) -> i32 + Send>(settings: &mut Settings, callback: T) -> MidiRouter {
         unsafe {
             let user_data = &callback as *const _ as *mut c_void;
             let router = new_fluid_midi_router(settings.to_raw(), midi_router_callback_wrapper::<T>, user_data);
@@ -23,7 +23,7 @@ impl MidiRouter {
             }
         }
 
-        fn midi_router_callback_wrapper<T>(closure: *mut c_void, event: *mut fluid_midi_event_t) -> i32
+        extern fn midi_router_callback_wrapper<T>(closure: *mut c_void, event: *mut fluid_midi_event_t) -> i32
             where T: Fn(MidiEvent) -> i32 {
             let closure = closure as *mut T;
 
@@ -155,7 +155,7 @@ impl MidiDriver {
             }
         }
 
-        fn midi_driver_callback_wrapper<T>(closure: *mut c_void, event: *mut fluid_midi_event_t) -> i32
+        extern fn midi_driver_callback_wrapper<T>(closure: *mut c_void, event: *mut fluid_midi_event_t) -> i32
             where T: Fn(MidiEvent) -> i32 {
             let closure = closure as *mut T;
 

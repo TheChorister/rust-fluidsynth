@@ -812,7 +812,7 @@ extern "C" {
                                       dynamic: ::libc::c_int)
      -> ::libc::c_int;
     pub fn new_fluid_midi_router(settings: *mut fluid_settings_t,
-                                 callback: fn (closure: *mut ::libc::c_void, event: *mut fluid_midi_event_t) -> i32,
+                                 callback: extern fn (closure: *mut ::libc::c_void, event: *mut fluid_midi_event_t) -> i32,
                                  event_handler_data: *mut ::libc::c_void)
      -> *mut fluid_midi_router_t;
     pub fn delete_fluid_midi_router(handler: *mut fluid_midi_router_t)
@@ -856,7 +856,7 @@ extern "C" {
                                       event: *mut fluid_midi_event_t)
      -> ::libc::c_int;
     pub fn new_fluid_midi_driver(settings: *mut fluid_settings_t,
-                                 handler: fn (closure: *mut ::libc::c_void, event: *mut fluid_midi_event_t) -> i32,
+                                 handler: extern fn (closure: *mut ::libc::c_void, event: *mut fluid_midi_event_t) -> i32,
                                  event_handler_data: *mut ::libc::c_void)
      -> *mut fluid_midi_driver_t;
     pub fn delete_fluid_midi_driver(driver: *mut fluid_midi_driver_t) -> ();
@@ -892,7 +892,7 @@ extern "C" {
      -> ::libc::c_int;
     pub fn fluid_sequencer_register_client(seq: *mut fluid_sequencer_t,
                                            name: *const ::libc::c_char,
-                                           callback: fn (closure: *mut ::libc::c_void, time: ::libc::c_uint, event: *mut fluid_event_t, seq: *mut fluid_sequencer_t),
+                                           callback: extern fn (closure: *mut ::libc::c_void, time: ::libc::c_uint, event: *mut fluid_event_t, seq: *mut fluid_sequencer_t),
                                            data: *mut ::libc::c_void)
      -> ::libc::c_short;
     pub fn fluid_sequencer_unregister_client(seq: *mut fluid_sequencer_t,
