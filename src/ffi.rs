@@ -341,6 +341,10 @@ extern "C" {
     pub fn fluid_synth_channel_pressure(synth: *mut fluid_synth_t,
                                         chan: ::libc::c_int,
                                         val: ::libc::c_int) -> ::libc::c_int;
+    pub fn fluid_synth_key_pressure(synth: *mut fluid_synth_t,
+                                        chan: ::libc::c_int,
+                                        key: ::libc::c_int,
+                                        val: ::libc::c_int) -> ::libc::c_int;
     pub fn fluid_synth_bank_select(synth: *mut fluid_synth_t,
                                    chan: ::libc::c_int, bank: ::libc::c_uint)
      -> ::libc::c_int;

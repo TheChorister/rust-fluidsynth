@@ -183,6 +183,12 @@ impl Synth {
         }                          
     }
 
+    pub fn key_pressure(&self, chan: i32, key: i32, val: i32) -> bool {
+        unsafe {
+            fluid_synth_key_pressure(self.c_fluid_synth, chan as c_int, key as c_int, val as c_int) == 0
+        }
+    }
+
     pub fn bank_select(&self, chan: i32, bank: u32) -> bool {
         unsafe {
             fluid_synth_bank_select(self.c_fluid_synth, chan as c_int, bank as c_uint) == 0
